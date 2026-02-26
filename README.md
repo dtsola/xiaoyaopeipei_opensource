@@ -30,113 +30,6 @@
 
 ---
 
-## 项目源码预览
-
-### 项目根目录结构
-
-<table>
-<tr>
-<td width="50%"><img src="docs/产品文档/项目截图/01-项目根目录.png" alt="项目根目录"></td>
-<td width="50%">
-<ul>
-<li>📁 前后端分离架构</li>
-<li>📁 完整的项目文档体系</li>
-<li>🐳 Docker 一键部署支持</li>
-<li>📦 模块化代码组织</li>
-</ul>
-</td>
-</tr>
-</table>
-
-### 完整项目文档体系
-
-<table>
-<tr>
-<td width="50%"><img src="docs/产品文档/项目截图/02-所有项目文档（市场+产品+UI和UX设计+技术（架构+前端+后端+测试+运维）+项目实施+运营）全链路.png" alt="完整项目文档"></td>
-<td width="50%">
-<ul>
-<li>📊 市场需求文档 (MRD)</li>
-<li>📱 产品需求文档 (PRD)</li>
-<li>🎨 UI/UX 设计文档</li>
-<li>💻 技术方案文档</li>
-<li>🧪 测试文档</li>
-<li>📦 部署文档</li>
-<li>🚀 运营文档</li>
-</ul>
-</td>
-</tr>
-</table>
-
-### C端用户端源代码
-
-<table>
-<tr>
-<td width="50%"><img src="docs/产品文档/项目截图/04-用户端-源代码.png" alt="C端源代码"></td>
-<td width="50%">
-<ul>
-<li>Vue 3 + TypeScript</li>
-<li>Vite 构建工具</li>
-<li>AI 对话交互</li>
-<li>配置推荐展示</li>
-<li>线索提交功能</li>
-</ul>
-</td>
-</tr>
-</table>
-
-### B端商户端源代码
-
-<table>
-<tr>
-<td width="50%"><img src="docs/产品文档/项目截图/03-商户端-源代码.png" alt="B端源代码"></td>
-<td width="50%">
-<ul>
-<li>Vue 3 + Ant Design Vue</li>
-<li>数据看板展示</li>
-<li>配置 SKU 管理</li>
-<li>客户线索管理</li>
-<li>ECharts 数据可视化</li>
-</ul>
-</td>
-</tr>
-</table>
-
-### 后端源代码
-
-<table>
-<tr>
-<td width="50%"><img src="docs/产品文档/项目截图/05-后端-源代码.png" alt="后端源代码"></td>
-<td width="50%">
-<ul>
-<li>FastAPI 高性能框架</li>
-<li>SQLAlchemy ORM</li>
-<li>LangChain AI 框架</li>
-<li>通义千问大模型集成</li>
-<li>JWT 身份认证</li>
-</ul>
-</td>
-</tr>
-</table>
-
-### Docker 一键部署
-
-<table>
-<tr>
-<td width="50%"><img src="docs/产品文档/项目截图/06-部署-Docker一键部署.png" alt="Docker部署"></td>
-<td width="50%">
-<ul>
-<li>🐳 Docker Compose 编排</li>
-<li>🗄️ MySQL 数据库</li>
-<li>🔧 自动数据库迁移</li>
-<li>🚀 一键启动所有服务</li>
-<li>📦 环境隔离部署</li>
-</ul>
-</td>
-</tr>
-</table>
-
----
-
 ## 功能预览
 
 ### C端 - 智能对话，获取推荐
@@ -398,6 +291,111 @@
 | **定制开发** | 200元/小时 | 功能定制/界面修改/业务逻辑调整 |
 
 > 💡 **说明**：源码套餐不含技术支持和部署服务，购买后可根据需要单独购买增值服务。
+
+### 源码预览
+
+#### 项目根目录结构
+
+<table>
+<tr>
+<td width="50%"><img src="docs/产品文档/项目截图/01-项目根目录.png" alt="项目根目录"></td>
+<td width="50%">
+<ul>
+<li>📁 前后端分离架构</li>
+<li>📁 完整的项目文档体系</li>
+<li>🐳 Docker 一键部署支持</li>
+<li>📦 模块化代码组织</li>
+</ul>
+</td>
+</tr>
+</table>
+
+#### 完整项目文档体系
+
+<table>
+<tr>
+<td width="50%"><img src="docs/产品文档/项目截图/02-所有项目文档（市场+产品+UI和UX设计+技术（架构+前端+后端+测试+运维）+项目实施+运营）全链路.png" alt="完整项目文档"></td>
+<td width="50%">
+<ul>
+<li>📊 市场需求文档 (MRD)</li>
+<li>📱 产品需求文档 (PRD)</li>
+<li>🎨 UI/UX 设计文档</li>
+<li>💻 技术方案文档</li>
+<li>🧪 测试文档</li>
+<li>📦 部署文档</li>
+<li>🚀 运营文档</li>
+</ul>
+</td>
+</tr>
+</table>
+
+#### C端用户端源代码
+
+<table>
+<tr>
+<td width="50%"><img src="docs/产品文档/项目截图/04-用户端-源代码.png" alt="C端源代码"></td>
+<td width="50%">
+<ul>
+<li>Vue 3 + TypeScript</li>
+<li>Vite 构建工具</li>
+<li>AI 对话交互</li>
+<li>配置推荐展示</li>
+<li>线索提交功能</li>
+</ul>
+</td>
+</tr>
+</table>
+
+#### B端商户端源代码
+
+<table>
+<tr>
+<td width="50%"><img src="docs/产品文档/项目截图/03-商户端-源代码.png" alt="B端源代码"></td>
+<td width="50%">
+<ul>
+<li>Vue 3 + Ant Design Vue</li>
+<li>数据看板展示</li>
+<li>配置 SKU 管理</li>
+<li>客户线索管理</li>
+<li>ECharts 数据可视化</li>
+</ul>
+</td>
+</tr>
+</table>
+
+#### 后端源代码
+
+<table>
+<tr>
+<td width="50%"><img src="docs/产品文档/项目截图/05-后端-源代码.png" alt="后端源代码"></td>
+<td width="50%">
+<ul>
+<li>FastAPI 高性能框架</li>
+<li>SQLAlchemy ORM</li>
+<li>LangChain AI 框架</li>
+<li>通义千问大模型集成</li>
+<li>JWT 身份认证</li>
+</ul>
+</td>
+</tr>
+</table>
+
+#### Docker 一键部署
+
+<table>
+<tr>
+<td width="50%"><img src="docs/产品文档/项目截图/06-部署-Docker一键部署.png" alt="Docker部署"></td>
+<td width="50%">
+<ul>
+<li>🐳 Docker Compose 编排</li>
+<li>🗄️ MySQL 数据库</li>
+<li>🔧 自动数据库迁移</li>
+<li>🚀 一键启动所有服务</li>
+<li>📦 环境隔离部署</li>
+</ul>
+</td>
+</tr>
+</table>
 
 ---
 
