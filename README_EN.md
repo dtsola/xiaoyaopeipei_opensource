@@ -41,13 +41,13 @@ Xiaoyaopeipei is an **AI conversational PC buying assistant** that provides an i
 </p>
 
 <p align="center">
-  <b>dtsola</b> — IT Solutions Architect | One-Person Company Practitioner
+  <b>dtsola</b> — IT Architect | One-Person Company Practitioner
 </p>
 
 <p align="center">
   🌐 <a href="https://www.dtsola.com">Personal Website</a> &nbsp;|&nbsp;
   📺 <a href="https://space.bilibili.com/736015">Bilibili</a> &nbsp;|&nbsp;
-  💬 WeChat: dtsola (Connect with me, note: github)
+  💬 WeChat: dtsola (Tech Discussion | Business Collaboration)
 </p>
 
 <p align="center">
