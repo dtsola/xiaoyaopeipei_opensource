@@ -20,12 +20,6 @@ export const XiaoyaopeipeiPromo: React.FC = () => {
         volume={1.0}
       />
 
-      {/* 背景音乐（可选）- 音量调低 */}
-      <Audio
-        src={staticFile("audio/bgm.mp3")}
-        volume={0.15}
-      />
-
       {/* 场景1: 0-300帧 (10秒) */}
       <Sequence from={0} durationInFrames={300}>
         <Scene01Hook />
