@@ -25,6 +25,12 @@
   "scripts": {
     "dev": "remotion studio",
     "build": "remotion bundle",
+    "render": "remotion render Xiaoyaopeipei-Promo-Full ../xiaoyaopeipei-promo.mp4",
+    "render:scene1": "remotion render Scene01-Hook scene01.mp4",
+    "render:scene2": "remotion render Scene02-Background scene02.mp4",
+    "render:scene3": "remotion render Scene03-Demo scene03.mp4",
+    "render:scene4": "remotion render Scene04-Invite scene04.mp4",
+    "render:scene5": "remotion render Scene05-Outro scene05.mp4",
     "upgrade": "remotion upgrade",
     "lint": "eslint src && tsc"
   },
