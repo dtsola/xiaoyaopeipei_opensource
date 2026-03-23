@@ -1,0 +1,23 @@
+{
+  "name": "xiaoyaopeipei-b-end-design",
+  "version": "1.0.0",
+  "description": "小遥配配 B端（商家后台）视觉设计展示",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --port 3001",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.4.21",
+    "ant-design-vue": "^4.1.2",
+    "@ant-design/icons-vue": "^7.0.1",
+    "dayjs": "^1.11.10",
+    "echarts": "^5.5.0",
+    "vue-echarts": "^6.6.9"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.4",
+    "vite": "^5.1.4"
+  }
+}

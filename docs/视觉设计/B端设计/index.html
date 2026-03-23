@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小遥配配 - B端设计方案展示</title>
+  <!-- 使用国内CDN替代Google Fonts -->
+  <style>
+    @import url('https://fonts.loli.net/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;500;600;700&family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+  </style>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #16213e 100%);
+      min-height: 100vh;
+      padding: 40px 20px;
+    }
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+    h1 {
+      text-align: center;
+      color: #fff;
+      font-size: 3rem;
+      font-weight: 800;
+      margin-bottom: 10px;
+      letter-spacing: -1px;
+      text-shadow: 0 0 40px rgba(74, 144, 226, 0.5);
+    }
+    .subtitle {
+      text-align: center;
+      color: rgba(255, 255, 255, 0.6);
+      font-size: 1.1rem;
+      margin-bottom: 50px;
+    }
+    .design-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+    .design-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      cursor: pointer;
+    }
+    .design-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(74, 144, 226, 0.5);
+      box-shadow: 0 20px 60px rgba(74, 144, 226, 0.2);
+    }
+    .design-preview {
+      height: 280px;
+      position: relative;
+      overflow: hidden;
+    }
+    .design-preview iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      transform: scale(0.5);
+      transform-origin: 0 0;
+      width: 200%;
+      height: 200%;
+    }
+    .design-info {
+      padding: 25px;
+    }
+    .design-name {
+      color: #fff;
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+    .design-desc {
+      color: rgba(255, 255, 255, 0.5);
+      font-size: 0.9rem;
+      line-height: 1.6;
+      margin-bottom: 15px;
+    }
+    .design-tags {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .design-tag {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .tag-1 {
+      background: rgba(0, 243, 255, 0.15);
+      color: #00f3ff;
+      border: 1px solid rgba(0, 243, 255, 0.3);
+    }
+    .tag-2 {
+      background: rgba(99, 102, 241, 0.15);
+      color: #818cf8;
+      border: 1px solid rgba(99, 102, 241, 0.3);
+    }
+    .tag-3 {
+      background: rgba(244, 114, 182, 0.15);
+      color: #f472b6;
+      border: 1px solid rgba(244, 114, 182, 0.3);
+    }
+    .back-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      color: rgba(255, 255, 255, 0.5);
+      text-decoration: none;
+      font-size: 0.9rem;
+      margin-bottom: 30px;
+      transition: color 0.3s;
+    }
+    .back-link:hover {
+      color: #4A90E2;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <a href="../" class="back-link">← 返回设计总览</a>
+    <h1>小遥配配 B端设计</h1>
+    <p class="subtitle">商家后台管理系统 · 3套独特视觉方案</p>
+
+    <div class="design-grid">
+      <div class="design-card" onclick="openDesign('style1-data-cockpit')">
+        <div class="design-preview">
+          <iframe src="style1-data-cockpit/DashboardPage.html" loading="lazy"></iframe>
+        </div>
+        <div class="design-info">
+          <div class="design-name">方案一：数据驾驶舱</div>
+          <div class="design-desc">深色科技风格，沉浸式数据可视化体验。适合追求专业感和科技感的商家。</div>
+          <div class="design-tags">
+            <span class="design-tag tag-1">深色主题</span>
+            <span class="design-tag tag-1">科技感</span>
+            <span class="design-tag tag-1">数据驱动</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="design-card" onclick="openDesign('style2-modern-business')">
+        <div class="design-preview">
+          <iframe src="style2-modern-business/DashboardPage.html" loading="lazy"></iframe>
+        </div>
+        <div class="design-info">
+          <div class="design-name">方案二：现代商务</div>
+          <div class="design-desc">浅色专业风格，优雅的排版和精致的细节。适合追求效率和简洁的商家。</div>
+          <div class="design-tags">
+            <span class="design-tag tag-2">浅色主题</span>
+            <span class="design-tag tag-2">专业感</span>
+            <span class="design-tag tag-2">优雅简约</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="design-card" onclick="openDesign('style3-glassmorphism')">
+        <div class="design-preview">
+          <iframe src="style3-glassmorphism/DashboardPage.html" loading="lazy"></iframe>
+        </div>
+        <div class="design-info">
+          <div class="design-name">方案三：玻璃未来</div>
+          <div class="design-desc">新拟态玻璃风格，柔和的渐变和透亮质感。适合追求时尚和个性化的商家。</div>
+          <div class="design-tags">
+            <span class="design-tag tag-3">玻璃拟态</span>
+            <span class="design-tag tag-3">柔和渐变</span>
+            <span class="design-tag tag-3">未来感</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function openDesign(style) {
+      window.open(style + '/DashboardPage.html', '_blank');
+    }
+  </script>
+</body>
+</html>

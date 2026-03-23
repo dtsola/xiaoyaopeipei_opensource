@@ -107,18 +107,8 @@ coverage.xml
 release/
 
 # 临时文档
-docs/*.md
+**/项目提示词.md
 docs/base/
-docs/产品文档/产品文案/
-docs/技术文档/
-docs/架构决策/
-docs/测试文档/
-docs/视觉设计/
-docs/运营文档/
-docs/部署文档/
-docs/高保真原型/
-README_参考.md
-
 
 # 整合包运行时
 runtime/

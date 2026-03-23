@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小遥配配 B端 - 玻璃未来</title>
+  <!-- 使用系统字体替代Google Fonts -->
+  <style>
+    @import url('https://fonts.loli.net/css2?family=Outfit:wght@300;400;500;600;700;800;900&display=swap');
+  </style>
+  <style>
+    :root {
+      --glass-bg: rgba(255, 255, 255, 0.12);
+      --glass-bg-hover: rgba(255, 255, 255, 0.18);
+      --glass-border: rgba(255, 255, 255, 0.2);
+      --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+      --glass-highlight: rgba(255, 255, 255, 0.3);
+
+      --bg-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 25%, #f093fb 50%, #f5576c 75%, #4facfe 100%);
+      --bg-gradient-soft: linear-gradient(135deg, #a8edea 0%, #fed6e3 50%, #d299c2 100%);
+
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.8);
+      --text-muted: rgba(255, 255, 255, 0.6);
+
+      --accent-pink: #f472b6;
+      --accent-purple: #a855f7;
+      --accent-blue: #60a5fa;
+      --accent-cyan: #22d3ee;
+      --accent-green: #4ade80;
+      --accent-orange: #fb923c;
+      --accent-red: #f87171;
+
+      --gradient-pink: linear-gradient(135deg, #f472b6 0%, #ec4899 100%);
+      --gradient-purple: linear-gradient(135deg, #a855f7 0%, #8b5cf6 100%);
+      --gradient-blue: linear-gradient(135deg, #60a5fa 0%, #3b82f6 100%);
+      --gradient-cyan: linear-gradient(135deg, #22d3ee 0%, #06b6d4 100%);
+      --gradient-orange: linear-gradient(135deg, #fb923c 0%, #f97316 100%);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background: var(--bg-gradient);
+      background-size: 400% 400%;
+      animation: gradientShift 15s ease infinite;
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    @keyframes gradientShift {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    /* Floating orbs */
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.5;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .orb-1 {
+      width: 400px;
+      height: 400px;
+      background: var(--gradient-pink);
+      top: -100px;
+      left: -100px;
+      animation: float1 20s ease-in-out infinite;
+    }
+
+    .orb-2 {
+      width: 350px;
+      height: 350px;
+      background: var(--gradient-purple);
+      top: 50%;
+      right: -100px;
+      animation: float2 25s ease-in-out infinite;
+    }
+
+    .orb-3 {
+      width: 300px;
+      height: 300px;
+      background: var(--gradient-cyan);
+      bottom: -50px;
+      left: 30%;
+      animation: float3 22s ease-in-out infinite;
+    }
+
+    @keyframes float1 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(100px, 100px) scale(1.1); }
+    }
+
+    @keyframes float2 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      50% { transform: translate(-80px, -120px) scale(1.15); }
+    }
+
+    @keyframes float3 {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      33% { transform: translate(60px, -80px) scale(0.95); }
+      66% { transform: translate(-40px, 40px) scale(1.05); }
+    }
+
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Glass Sidebar */
+    .sidebar {
+      width: 260px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-right: 1px solid var(--glass-border);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      height: 100vh;
+      z-index: 100;
+    }
+
+    .logo-section {
+      padding: 28px 20px;
+      border-bottom: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      gap: 14px;
+    }
+
+    .logo-icon {
+      width: 48px;
+      height: 48px;
+      background: var(--gradient-pink);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 18px;
+      color: white;
+      box-shadow: 0 8px 24px rgba(244, 114, 182, 0.4);
+    }
+
+    .logo-text {
+      font-weight: 700;
+      font-size: 22px;
+      background: linear-gradient(135deg, #fff 0%, rgba(255,255,255,0.8) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-menu {
+      flex: 1;
+      padding: 20px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 16px;
+      border-radius: 14px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 14px;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-item::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.2) 0%, rgba(255,255,255,0.05) 100%);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .nav-item:hover {
+      color: var(--text-primary);
+      background: var(--glass-bg-hover);
+    }
+
+    .nav-item:hover::before {
+      opacity: 1;
+    }
+
+    .nav-item.active {
+      background: var(--gradient-pink);
+      color: white;
+      box-shadow: 0 8px 24px rgba(244, 114, 182, 0.4);
+    }
+
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+      opacity: 0.8;
+      z-index: 1;
+    }
+
+    .user-section {
+      padding: 16px;
+      margin: 0 12px 16px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--glass-border);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 12px;
+      background: var(--gradient-purple);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      color: white;
+      box-shadow: 0 4px 16px rgba(168, 85, 247, 0.4);
+    }
+
+    .user-info {
+      flex: 1;
+    }
+
+    .user-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-primary);
+    }
+
+    .user-role {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 260px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Glass Header */
+    .top-header {
+      height: 80px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 32px;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 24px;
+    }
+
+    .page-title {
+      font-size: 24px;
+      font-weight: 700;
+      color: var(--text-primary);
+    }
+
+    .date-display {
+      font-size: 13px;
+      color: var(--text-muted);
+      font-weight: 500;
+      padding: 6px 14px;
+      background: rgba(255, 255, 255, 0.08);
+      border-radius: 20px;
+      border: 1px solid var(--glass-border);
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .header-btn {
+      width: 46px;
+      height: 46px;
+      border-radius: 14px;
+      background: var(--glass-bg);
+      backdrop-filter: blur(10px);
+      border: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .header-btn:hover {
+      background: var(--glass-bg-hover);
+      transform: translateY(-2px);
+      box-shadow: var(--glass-shadow);
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 20px;
+      height: 20px;
+      background: var(--gradient-orange);
+      border-radius: 50%;
+      font-size: 11px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      box-shadow: 0 4px 12px rgba(251, 146, 60, 0.5);
+    }
+
+    /* Dashboard Content */
+    .dashboard-content {
+      padding: 32px;
+    }
+
+    /* Glass Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .stat-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--card-gradient);
+      border-radius: 24px 24px 0 0;
+    }
+
+    .stat-card::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      right: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-8px) scale(1.02);
+      box-shadow: var(--glass-shadow);
+    }
+
+    .stat-card:hover::after {
+      opacity: 1;
+    }
+
+    .stat-card.pink {
+      --card-gradient: var(--gradient-pink);
+    }
+
+    .stat-card.purple {
+      --card-gradient: var(--gradient-purple);
+    }
+
+    .stat-card.blue {
+      --card-gradient: var(--gradient-blue);
+    }
+
+    .stat-card.cyan {
+      --card-gradient: var(--gradient-cyan);
+    }
+
+    .stat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 18px;
+    }
+
+    .stat-icon {
+      width: 56px;
+      height: 56px;
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 24px;
+    }
+
+    .stat-icon.pink {
+      background: rgba(244, 114, 182, 0.2);
+      color: var(--accent-pink);
+    }
+
+    .stat-icon.purple {
+      background: rgba(168, 85, 247, 0.2);
+      color: var(--accent-purple);
+    }
+
+    .stat-icon.blue {
+      background: rgba(96, 165, 250, 0.2);
+      color: var(--accent-blue);
+    }
+
+    .stat-icon.cyan {
+      background: rgba(34, 211, 238, 0.2);
+      color: var(--accent-cyan);
+    }
+
+    .stat-trend {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      font-weight: 700;
+      padding: 6px 12px;
+      border-radius: 20px;
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-trend.up {
+      background: rgba(74, 222, 128, 0.2);
+      color: var(--accent-green);
+    }
+
+    .stat-trend.down {
+      background: rgba(248, 113, 113, 0.2);
+      color: var(--accent-red);
+    }
+
+    .stat-value {
+      font-size: 40px;
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1;
+      margin-bottom: 8px;
+      text-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: var(--text-muted);
+      font-weight: 500;
+    }
+
+    /* Quick Actions */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+      margin-bottom: 32px;
+    }
+
+    .action-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 28px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      cursor: pointer;
+      transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .action-card::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(244, 114, 182, 0.1) 0%, rgba(168, 85, 247, 0.1) 100%);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .action-card:hover {
+      transform: translateX(8px);
+      border-color: rgba(244, 114, 182, 0.4);
+      box-shadow: var(--glass-shadow);
+    }
+
+    .action-card:hover::before {
+      opacity: 1;
+    }
+
+    .action-icon {
+      width: 64px;
+      height: 64px;
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      transition: all 0.3s ease;
+      position: relative;
+      z-index: 1;
+    }
+
+    .action-card:hover .action-icon {
+      background: var(--gradient-pink);
+      border-color: transparent;
+      transform: scale(1.1);
+      box-shadow: 0 8px 24px rgba(244, 114, 182, 0.4);
+    }
+
+    .action-content h3 {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+      position: relative;
+      z-index: 1;
+    }
+
+    .action-content p {
+      font-size: 13px;
+      color: var(--text-muted);
+      position: relative;
+      z-index: 1;
+    }
+
+    /* Content Grid */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      gap: 24px;
+    }
+
+    .content-card {
+      background: var(--glass-bg);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border: 1px solid var(--glass-border);
+      border-radius: 24px;
+      padding: 28px;
+      transition: all 0.4s ease;
+    }
+
+    .content-card:hover {
+      box-shadow: var(--glass-shadow);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 24px;
+    }
+
+    .card-title {
+      font-size: 18px;
+      font-weight: 700;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .card-title::before {
+      content: '';
+      width: 5px;
+      height: 24px;
+      background: var(--gradient-pink);
+      border-radius: 3px;
+    }
+
+    .card-action {
+      font-size: 13px;
+      color: var(--accent-pink);
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-action:hover {
+      text-shadow: 0 0 20px var(--accent-pink);
+    }
+
+    /* Lead List */
+    .lead-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .lead-item {
+      background: rgba(255, 255, 255, 0.06);
+      border: 1px solid var(--glass-border);
+      border-radius: 18px;
+      padding: 18px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+      backdrop-filter: blur(10px);
+    }
+
+    .lead-item:hover {
+      background: rgba(255, 255, 255, 0.12);
+      transform: translateX(4px);
+      border-color: rgba(244, 114, 182, 0.3);
+    }
+
+    .lead-item.new {
+      border-color: var(--accent-orange);
+      background: rgba(251, 146, 60, 0.1);
+    }
+
+    .lead-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 14px;
+      background: var(--gradient-purple);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      font-size: 18px;
+      color: white;
+      box-shadow: 0 4px 16px rgba(168, 85, 247, 0.3);
+    }
+
+    .lead-info {
+      flex: 1;
+    }
+
+    .lead-name {
+      font-weight: 600;
+      font-size: 15px;
+      color: var(--text-primary);
+      margin-bottom: 6px;
+    }
+
+    .lead-details {
+      font-size: 12px;
+      color: var(--text-muted);
+      display: flex;
+      gap: 12px;
+    }
+
+    .lead-status {
+      padding: 6px 14px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      backdrop-filter: blur(10px);
+    }
+
+    .lead-status.pending {
+      background: rgba(251, 146, 60, 0.2);
+      color: var(--accent-orange);
+      border: 1px solid rgba(251, 146, 60, 0.3);
+    }
+
+    .lead-status.contacted {
+      background: rgba(96, 165, 250, 0.2);
+      color: var(--accent-blue);
+      border: 1px solid rgba(96, 165, 250, 0.3);
+    }
+
+    .lead-status.closed {
+      background: rgba(74, 222, 128, 0.2);
+      color: var(--accent-green);
+      border: 1px solid rgba(74, 222, 128, 0.3);
+    }
+
+    .lead-time {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Popular Configs */
+    .config-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .config-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 14px 18px;
+      border-radius: 16px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .config-item:hover {
+      background: rgba(255, 255, 255, 0.08);
+    }
+
+    .config-rank {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid var(--glass-border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      font-size: 16px;
+      color: var(--text-muted);
+    }
+
+    .config-rank.top-1 {
+      background: var(--gradient-orange);
+      border-color: transparent;
+      color: white;
+      box-shadow: 0 4px 16px rgba(251, 146, 60, 0.4);
+    }
+
+    .config-rank.top-2 {
+      background: var(--gradient-purple);
+      border-color: transparent;
+      color: white;
+      box-shadow: 0 4px 16px rgba(168, 85, 247, 0.4);
+    }
+
+    .config-rank.top-3 {
+      background: var(--gradient-blue);
+      border-color: transparent;
+      color: white;
+      box-shadow: 0 4px 16px rgba(96, 165, 250, 0.4);
+    }
+
+    .config-info {
+      flex: 1;
+    }
+
+    .config-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .config-type {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    .config-count {
+      font-weight: 800;
+      font-size: 17px;
+      background: var(--gradient-pink);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 5px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(255, 255, 255, 0.3);
+    }
+
+    /* Animations */
+    @keyframes slideUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .stat-card,
+    .action-card,
+    .content-card {
+      animation: slideUp 0.6s cubic-bezier(0.4, 0, 0.2, 1) backwards;
+    }
+
+    .stat-card:nth-child(1) { animation-delay: 0.1s; }
+    .stat-card:nth-child(2) { animation-delay: 0.2s; }
+    .stat-card:nth-child(3) { animation-delay: 0.3s; }
+    .stat-card:nth-child(4) { animation-delay: 0.4s; }
+    .action-card:nth-child(1) { animation-delay: 0.5s; }
+    .action-card:nth-child(2) { animation-delay: 0.6s; }
+    .action-card:nth-child(3) { animation-delay: 0.7s; }
+    .content-card:nth-child(1) { animation-delay: 0.8s; }
+    .content-card:nth-child(2) { animation-delay: 0.9s; }
+
+    /* Responsive */
+    @media (max-width: 1400px) {
+      .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+    }
+
+    @media (max-width: 1024px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .sidebar {
+        transform: translateX(-100%);
+      }
+      .main-content {
+        margin-left: 0;
+      }
+      .quick-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Floating Background Orbs -->
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+
+  <div class="app-container">
+    <!-- Glass Sidebar -->
+    <aside class="sidebar">
+      <div class="logo-section">
+        <div class="logo-icon">XY</div>
+        <span class="logo-text">小遥配配</span>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="#" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          数据看板
+        </a>
+        <a href="#" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+            <path d="M3 9h18"></path>
+            <path d="M9 21V9"></path>
+          </svg>
+          SKU管理
+        </a>
+        <a href="#" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          客户线索
+        </a>
+        <a href="#" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+          </svg>
+          分享管理
+        </a>
+        <a href="#" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          个人中心
+        </a>
+      </nav>
+
+      <div class="user-section">
+        <div class="user-avatar">商</div>
+        <div class="user-info">
+          <div class="user-name">XX电脑城</div>
+          <div class="user-role">商家账号</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Glass Header -->
+      <header class="top-header">
+        <div class="header-left">
+          <h1 class="page-title">数据看板</h1>
+          <span class="date-display">今日 2025-12-22</span>
+        </div>
+        <div class="header-right">
+          <div class="header-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </div>
+          <div class="header-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span class="notification-badge">3</span>
+          </div>
+          <div class="header-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Content -->
+      <div class="dashboard-content">
+        <!-- Glass Stats Cards -->
+        <div class="stats-grid">
+          <div class="stat-card pink">
+            <div class="stat-header">
+              <div class="stat-icon pink">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                </svg>
+              </div>
+              <div class="stat-trend up">↑ 12%</div>
+            </div>
+            <div class="stat-value">23</div>
+            <div class="stat-label">咨询数</div>
+          </div>
+
+          <div class="stat-card purple">
+            <div class="stat-header">
+              <div class="stat-icon purple">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                  <circle cx="9" cy="7" r="4"></circle>
+                  <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                  <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                </svg>
+              </div>
+              <div class="stat-trend up">↑ 8%</div>
+            </div>
+            <div class="stat-value">15</div>
+            <div class="stat-label">线索数</div>
+          </div>
+
+          <div class="stat-card blue">
+            <div class="stat-header">
+              <div class="stat-icon blue">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="22 12 18 12 15 21 9 3 6 12 2 12"></polyline>
+                </svg>
+              </div>
+              <div class="stat-trend up">↑ 5%</div>
+            </div>
+            <div class="stat-value">65.2%</div>
+            <div class="stat-label">转化率</div>
+          </div>
+
+          <div class="stat-card cyan">
+            <div class="stat-header">
+              <div class="stat-icon cyan">
+                <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+              </div>
+              <div class="stat-trend down">↓ 2%</div>
+            </div>
+            <div class="stat-value">¥32.5K</div>
+            <div class="stat-label">成交金额</div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+          <div class="action-card">
+            <div class="action-icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                <line x1="12" y1="8" x2="12" y2="16"></line>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+              </svg>
+            </div>
+            <div class="action-content">
+              <h3>添加配置</h3>
+              <p>快速添加新的电脑配置</p>
+            </div>
+          </div>
+
+          <div class="action-card">
+            <div class="action-icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </div>
+            <div class="action-content">
+              <h3>查看线索</h3>
+              <p>管理客户跟进信息</p>
+            </div>
+          </div>
+
+          <div class="action-card">
+            <div class="action-icon">
+              <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+              </svg>
+            </div>
+            <div class="action-content">
+              <h3>分享管理</h3>
+              <p>获取二维码和推广链接</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+          <!-- Latest Leads -->
+          <div class="content-card">
+            <div class="card-header">
+              <h2 class="card-title">最新线索（待跟进）</h2>
+              <span class="card-action">查看全部 →</span>
+            </div>
+
+            <div class="lead-list">
+              <div class="lead-item new">
+                <div class="lead-avatar">客</div>
+                <div class="lead-info">
+                  <div class="lead-name">客户A</div>
+                  <div class="lead-details">
+                    <span>预算:6000元</span>
+                    <span>笔记本</span>
+                    <span>游戏</span>
+                  </div>
+                </div>
+                <div class="lead-status pending">待跟进</div>
+                <div class="lead-time">10分钟前</div>
+              </div>
+
+              <div class="lead-item">
+                <div class="lead-avatar">客</div>
+                <div class="lead-info">
+                  <div class="lead-name">客户B</div>
+                  <div class="lead-details">
+                    <span>预算:5000元</span>
+                    <span>台式机</span>
+                    <span>办公</span>
+                  </div>
+                </div>
+                <div class="lead-status contacted">已联系</div>
+                <div class="lead-time">25分钟前</div>
+              </div>
+
+              <div class="lead-item">
+                <div class="lead-avatar">客</div>
+                <div class="lead-info">
+                  <div class="lead-name">客户C</div>
+                  <div class="lead-details">
+                    <span>预算:8000元</span>
+                    <span>笔记本</span>
+                    <span>设计</span>
+                  </div>
+                </div>
+                <div class="lead-status closed">已成交</div>
+                <div class="lead-time">2小时前</div>
+              </div>
+
+              <div class="lead-item">
+                <div class="lead-avatar">客</div>
+                <div class="lead-info">
+                  <div class="lead-name">客户D</div>
+                  <div class="lead-details">
+                    <span>预算:4000元</span>
+                    <span>台式机</span>
+                    <span>游戏</span>
+                  </div>
+                </div>
+                <div class="lead-status pending">待跟进</div>
+                <div class="lead-time">3小时前</div>
+              </div>
+
+              <div class="lead-item">
+                <div class="lead-avatar">客</div>
+                <div class="lead-info">
+                  <div class="lead-name">客户E</div>
+                  <div class="lead-details">
+                    <span>预算:10000元</span>
+                    <span>一体机</span>
+                    <span>办公</span>
+                  </div>
+                </div>
+                <div class="lead-status contacted">已联系</div>
+                <div class="lead-time">5小时前</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Popular Configs -->
+          <div class="content-card">
+            <div class="card-header">
+              <h2 class="card-title">热门配置（本周）</h2>
+              <span class="card-action">查看全部 →</span>
+            </div>
+
+            <div class="config-list">
+              <div class="config-item">
+                <div class="config-rank top-1">1</div>
+                <div class="config-info">
+                  <div class="config-name">联想拯救者Y7000P</div>
+                  <div class="config-type">笔记本 · 游戏</div>
+                </div>
+                <div class="config-count">12次</div>
+              </div>
+
+              <div class="config-item">
+                <div class="config-rank top-2">2</div>
+                <div class="config-info">
+                  <div class="config-name">华硕天选4</div>
+                  <div class="config-type">笔记本 · 游戏</div>
+                </div>
+                <div class="config-count">9次</div>
+              </div>
+
+              <div class="config-item">
+                <div class="config-rank top-3">3</div>
+                <div class="config-info">
+                  <div class="config-name">办公主机-标准款</div>
+                  <div class="config-type">台式机 · 办公</div>
+                </div>
+                <div class="config-count">7次</div>
+              </div>
+
+              <div class="config-item">
+                <div class="config-rank">4</div>
+                <div class="config-info">
+                  <div class="config-name">戴尔XPS 15</div>
+                  <div class="config-type">笔记本 · 设计</div>
+                </div>
+                <div class="config-count">5次</div>
+              </div>
+
+              <div class="config-item">
+                <div class="config-rank">5</div>
+                <div class="config-info">
+                  <div class="config-name">游戏主机-入门款</div>
+                  <div class="config-type">台式机 · 游戏</div>
+                </div>
+                <div class="config-count">4次</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Interactive hover effects
+    document.querySelectorAll('.lead-item').forEach(item => {
+      item.addEventListener('click', function() {
+        const name = this.querySelector('.lead-name').textContent;
+        // Add ripple effect
+        this.style.transform = 'scale(0.98)';
+        setTimeout(() => {
+          this.style.transform = '';
+        }, 150);
+      });
+    });
+
+    document.querySelectorAll('.action-card').forEach(card => {
+      card.addEventListener('click', function() {
+        const action = this.querySelector('h3').textContent;
+        this.style.transform = 'translateX(12px) scale(0.98)';
+        setTimeout(() => {
+          this.style.transform = '';
+        }, 200);
+      });
+    });
+
+    // Parallax effect for orbs
+    document.addEventListener('mousemove', (e) => {
+      const orbs = document.querySelectorAll('.orb');
+      const x = e.clientX / window.innerWidth;
+      const y = e.clientY / window.innerHeight;
+
+      orbs.forEach((orb, index) => {
+        const speed = (index + 1) * 20;
+        orb.style.transform = `translate(${x * speed}px, ${y * speed}px)`;
+      });
+    });
+
+    // Simulate real-time updates
+    function updateData() {
+      const statValues = document.querySelectorAll('.stat-value');
+      statValues.forEach(stat => {
+        if (stat.textContent.includes('K')) {
+          const currentValue = parseFloat(stat.textContent.replace(/[^\d.]/g, ''));
+          const change = (Math.random() - 0.5) * 0.5;
+          stat.style.transition = 'all 0.5s ease';
+          stat.textContent = '¥' + (currentValue + change).toFixed(1) + 'K';
+        }
+      });
+    }
+
+    setInterval(updateData, 8000);
+  </script>
+</body>
+</html>

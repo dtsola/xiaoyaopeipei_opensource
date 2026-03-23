@@ -1,0 +1,1115 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>小遥配配 B端 - 数据驾驶舱</title>
+  <!-- 使用系统字体替代Google Fonts -->
+  <style>
+    @import url('https://fonts.loli.net/css2?family=Orbitron:wght@400;500;600;700;800;900&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+  </style>
+  <style>
+    :root {
+      --bg-primary: #0a0e27;
+      --bg-secondary: #111833;
+      --bg-card: rgba(17, 24, 51, 0.6);
+      --bg-card-hover: rgba(17, 24, 51, 0.8);
+      --border-color: rgba(0, 243, 255, 0.15);
+      --border-glow: rgba(0, 243, 255, 0.4);
+      --text-primary: #e8f4ff;
+      --text-secondary: #6b7d9c;
+      --text-muted: #4a5568;
+      --accent-cyan: #00f3ff;
+      --accent-blue: #4a9eff;
+      --accent-purple: #a855f7;
+      --accent-green: #10b981;
+      --accent-orange: #f59e0b;
+      --accent-red: #ef4444;
+      --shadow-glow-cyan: 0 0 20px rgba(0, 243, 255, 0.3);
+      --shadow-glow-blue: 0 0 20px rgba(74, 158, 255, 0.3);
+      --gradient-cyan: linear-gradient(135deg, #00f3ff 0%, #4a9eff 100%);
+      --gradient-purple: linear-gradient(135deg, #a855f7 0%, #6366f1 100%);
+      --gradient-green: linear-gradient(135deg, #10b981 0%, #06b6d4 100%);
+      --gradient-orange: linear-gradient(135deg, #f59e0b 0%, #ef4444 100%);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+      position: relative;
+    }
+
+    /* Animated background grid */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background-image:
+        linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Scanning line effect */
+    body::after {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-cyan), transparent);
+      animation: scan 8s linear infinite;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    @keyframes scan {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    .app-container {
+      display: flex;
+      min-height: 100vh;
+      position: relative;
+      z-index: 2;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      width: 240px;
+      background: var(--bg-secondary);
+      border-right: 1px solid var(--border-color);
+      display: flex;
+      flex-direction: column;
+      position: fixed;
+      height: 100vh;
+      backdrop-filter: blur(10px);
+    }
+
+    .logo-section {
+      padding: 24px 20px;
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .logo-icon {
+      width: 40px;
+      height: 40px;
+      background: var(--gradient-cyan);
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 800;
+      font-size: 18px;
+      color: var(--bg-primary);
+      box-shadow: var(--shadow-glow-cyan);
+    }
+
+    .logo-text {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 18px;
+      background: var(--gradient-cyan);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .nav-menu {
+      flex: 1;
+      padding: 20px 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 4px;
+    }
+
+    .nav-item {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 14px 16px;
+      border-radius: 10px;
+      color: var(--text-secondary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 15px;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .nav-item::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 3px;
+      height: 100%;
+      background: var(--gradient-cyan);
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+
+    .nav-item:hover {
+      background: rgba(0, 243, 255, 0.08);
+      color: var(--text-primary);
+    }
+
+    .nav-item:hover::before {
+      opacity: 1;
+    }
+
+    .nav-item.active {
+      background: rgba(0, 243, 255, 0.12);
+      color: var(--accent-cyan);
+    }
+
+    .nav-item.active::before {
+      opacity: 1;
+      box-shadow: 0 0 10px var(--accent-cyan);
+    }
+
+    .nav-icon {
+      width: 20px;
+      height: 20px;
+      opacity: 0.8;
+    }
+
+    .user-section {
+      padding: 20px;
+      border-top: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      background: var(--gradient-purple);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: white;
+      box-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+    }
+
+    .user-info {
+      flex: 1;
+    }
+
+    .user-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-primary);
+    }
+
+    .user-role {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      margin-left: 240px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Top Header */
+    .top-header {
+      height: 70px;
+      background: var(--bg-card);
+      backdrop-filter: blur(10px);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 30px;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .page-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 20px;
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .date-display {
+      font-size: 13px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    .header-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+    }
+
+    .header-btn {
+      width: 42px;
+      height: 42px;
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-color);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+
+    .header-btn:hover {
+      background: rgba(0, 243, 255, 0.1);
+      border-color: var(--accent-cyan);
+      box-shadow: var(--shadow-glow-cyan);
+    }
+
+    .notification-badge {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 18px;
+      height: 18px;
+      background: var(--gradient-orange);
+      border-radius: 50%;
+      font-size: 10px;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    /* Dashboard Content */
+    .dashboard-content {
+      padding: 30px;
+    }
+
+    /* Stats Cards */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px;
+      position: relative;
+      overflow: hidden;
+      transition: all 0.4s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .stat-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: var(--card-gradient, var(--gradient-cyan));
+    }
+
+    .stat-card:hover {
+      transform: translateY(-4px);
+      border-color: var(--border-glow);
+      box-shadow: var(--card-shadow, var(--shadow-glow-cyan));
+    }
+
+    .stat-card.cyan {
+      --card-gradient: var(--gradient-cyan);
+      --card-shadow: var(--shadow-glow-cyan);
+    }
+
+    .stat-card.purple {
+      --card-gradient: var(--gradient-purple);
+      --card-shadow: 0 0 20px rgba(168, 85, 247, 0.3);
+    }
+
+    .stat-card.green {
+      --card-gradient: var(--gradient-green);
+      --card-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+    }
+
+    .stat-card.orange {
+      --card-gradient: var(--gradient-orange);
+      --card-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+    }
+
+    .stat-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+    }
+
+    .stat-icon.cyan {
+      background: rgba(0, 243, 255, 0.15);
+      color: var(--accent-cyan);
+    }
+
+    .stat-icon.purple {
+      background: rgba(168, 85, 247, 0.15);
+      color: var(--accent-purple);
+    }
+
+    .stat-icon.green {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-green);
+    }
+
+    .stat-icon.orange {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--accent-orange);
+    }
+
+    .stat-trend {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 13px;
+      font-weight: 600;
+      padding: 4px 10px;
+      border-radius: 20px;
+    }
+
+    .stat-trend.up {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-green);
+    }
+
+    .stat-trend.down {
+      background: rgba(239, 68, 68, 0.15);
+      color: var(--accent-red);
+    }
+
+    .stat-value {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 36px;
+      font-weight: 700;
+      color: var(--text-primary);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .stat-label {
+      font-size: 14px;
+      color: var(--text-secondary);
+      font-weight: 500;
+    }
+
+    /* Quick Actions */
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .action-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      gap: 20px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .action-card:hover {
+      border-color: var(--accent-cyan);
+      background: rgba(0, 243, 255, 0.05);
+      transform: translateX(8px);
+    }
+
+    .action-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 14px;
+      background: rgba(0, 243, 255, 0.1);
+      border: 1px solid rgba(0, 243, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 26px;
+      transition: all 0.3s ease;
+    }
+
+    .action-card:hover .action-icon {
+      background: rgba(0, 243, 255, 0.2);
+      box-shadow: var(--shadow-glow-cyan);
+    }
+
+    .action-content h3 {
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .action-content p {
+      font-size: 13px;
+      color: var(--text-secondary);
+    }
+
+    /* Content Grid */
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+    }
+
+    .content-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 16px;
+      padding: 24px;
+      backdrop-filter: blur(10px);
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 20px;
+    }
+
+    .card-title {
+      font-family: 'Orbitron', sans-serif;
+      font-size: 16px;
+      font-weight: 600;
+      color: var(--text-primary);
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card-title::before {
+      content: '';
+      width: 4px;
+      height: 18px;
+      background: var(--gradient-cyan);
+      border-radius: 2px;
+    }
+
+    .card-action {
+      font-size: 13px;
+      color: var(--accent-cyan);
+      cursor: pointer;
+      font-weight: 500;
+      transition: all 0.3s ease;
+    }
+
+    .card-action:hover {
+      text-shadow: 0 0 10px var(--accent-cyan);
+    }
+
+    /* Lead List */
+    .lead-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .lead-item {
+      background: rgba(255, 255, 255, 0.02);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 12px;
+      padding: 16px;
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .lead-item:hover {
+      background: rgba(0, 243, 255, 0.05);
+      border-color: rgba(0, 243, 255, 0.2);
+    }
+
+    .lead-item.new {
+      border-color: var(--accent-orange);
+    }
+
+    .lead-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 10px;
+      background: var(--gradient-purple);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 600;
+      font-size: 16px;
+    }
+
+    .lead-info {
+      flex: 1;
+    }
+
+    .lead-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-primary);
+      margin-bottom: 4px;
+    }
+
+    .lead-details {
+      font-size: 12px;
+      color: var(--text-secondary);
+      display: flex;
+      gap: 12px;
+    }
+
+    .lead-status {
+      padding: 4px 12px;
+      border-radius: 20px;
+      font-size: 11px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
+
+    .lead-status.pending {
+      background: rgba(245, 158, 11, 0.15);
+      color: var(--accent-orange);
+    }
+
+    .lead-status.contacted {
+      background: rgba(74, 158, 255, 0.15);
+      color: var(--accent-blue);
+    }
+
+    .lead-status.closed {
+      background: rgba(16, 185, 129, 0.15);
+      color: var(--accent-green);
+    }
+
+    .lead-time {
+      font-size: 12px;
+      color: var(--text-muted);
+    }
+
+    /* Popular Configs */
+    .config-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .config-item {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      padding: 12px;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      cursor: pointer;
+    }
+
+    .config-item:hover {
+      background: rgba(255, 255, 255, 0.03);
+    }
+
+    .config-rank {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: rgba(0, 243, 255, 0.1);
+      border: 1px solid rgba(0, 243, 255, 0.2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 14px;
+      color: var(--accent-cyan);
+    }
+
+    .config-rank.top-1 {
+      background: var(--gradient-orange);
+      border-color: transparent;
+      color: white;
+    }
+
+    .config-rank.top-2 {
+      background: rgba(168, 85, 247, 0.2);
+      border-color: rgba(168, 85, 247, 0.4);
+      color: var(--accent-purple);
+    }
+
+    .config-rank.top-3 {
+      background: rgba(74, 158, 255, 0.2);
+      border-color: rgba(74, 158, 255, 0.4);
+      color: var(--accent-blue);
+    }
+
+    .config-info {
+      flex: 1;
+    }
+
+    .config-name {
+      font-weight: 600;
+      font-size: 14px;
+      color: var(--text-primary);
+      margin-bottom: 2px;
+    }
+
+    .config-type {
+      font-size: 12px;
+      color: var(--text-secondary);
+    }
+
+    .config-count {
+      font-family: 'Orbitron', sans-serif;
+      font-weight: 700;
+      font-size: 16px;
+      color: var(--accent-cyan);
+    }
+
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-secondary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(0, 243, 255, 0.3);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 243, 255, 0.5);
+    }
+
+    /* Animations */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .stat-card, .action-card, .content-card {
+      animation: fadeInUp 0.6s ease-out backwards;
+    }
+
+    .stat-card:nth-child(1) { animation-delay: 0.1s; }
+    .stat-card:nth-child(2) { animation-delay: 0.2s; }
+    .stat-card:nth-child(3) { animation-delay: 0.3s; }
+    .stat-card:nth-child(4) { animation-delay: 0.4s; }
+    .action-card:nth-child(1) { animation-delay: 0.5s; }
+    .action-card:nth-child(2) { animation-delay: 0.6s; }
+    .action-card:nth-child(3) { animation-delay: 0.7s; }
+    .content-card:nth-child(1) { animation-delay: 0.8s; }
+    .content-card:nth-child(2) { animation-delay: 0.9s; }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <!-- Sidebar -->
+    <aside class="sidebar">
+      <div class="logo-section">
+        <div class="logo-icon">XY</div>
+        <span class="logo-text">小遥配配</span>
+      </div>
+
+      <nav class="nav-menu">
+        <a href="#" class="nav-item active">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="7" height="7"></rect>
+            <rect x="14" y="3" width="7" height="7"></rect>
+            <rect x="14" y="14" width="7" height="7"></rect>
+            <rect x="3" y="14" width="7" height="7"></rect>
+          </svg>
+          数据看板
+        </a>
+        <a href="#" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+            <path d="M3 9h18"></path>
+            <path d="M9 21V9"></path>
+          </svg>
+          SKU管理
+        </a>
+        <a href="#" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+            <circle cx="9" cy="7" r="4"></circle>
+            <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+          </svg>
+          客户线索
+        </a>
+        <a href="#" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+          </svg>
+          分享管理
+        </a>
+        <a href="#" class="nav-item">
+          <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+            <circle cx="12" cy="7" r="4"></circle>
+          </svg>
+          个人中心
+        </a>
+      </nav>
+
+      <div class="user-section">
+        <div class="user-avatar">商</div>
+        <div class="user-info">
+          <div class="user-name">XX电脑城</div>
+          <div class="user-role">商家账号</div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="main-content">
+      <!-- Top Header -->
+      <header class="top-header">
+        <div class="header-left">
+          <h1 class="page-title">数据看板</h1>
+          <span class="date-display">今日 2025-12-22</span>
+        </div>
+        <div class="header-right">
+          <div class="header-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </div>
+          <div class="header-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+              <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+            </svg>
+            <span class="notification-badge">3</span>
+          </div>
+          <div class="header-btn">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+          </div>
+        </div>
+      </header>
+
+      <!-- Dashboard Content -->
+      <div class="dashboard-content">
+        <!-- Stats Cards -->
+        <div class="stats-grid">
+          <div class="stat-card cyan">
+            <div class="stat-header">
+              <div class="stat-icon cyan"></div>
+              <div class="stat-trend up">↑ 12%</div>
+            </div>
+            <div class="stat-value">23</div>
+            <div class="stat-label">咨询数</div>
+          </div>
+
+          <div class="stat-card purple">
+            <div class="stat-header">
+              <div class="stat-icon purple"></div>
+              <div class="stat-trend up">↑ 8%</div>
+            </div>
+            <div class="stat-value">15</div>
+            <div class="stat-label">线索数</div>
+          </div>
+
+          <div class="stat-card green">
+            <div class="stat-header">
+              <div class="stat-icon green"></div>
+              <div class="stat-trend up">↑ 5%</div>
+            </div>
+            <div class="stat-value">65.2%</div>
+            <div class="stat-label">转化率</div>
+          </div>
+
+          <div class="stat-card orange">
+            <div class="stat-header">
+              <div class="stat-icon orange"></div>
+              <div class="stat-trend down">↓ 2%</div>
+            </div>
+            <div class="stat-value">¥32.5K</div>
+            <div class="stat-label">成交金额</div>
+          </div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="quick-actions">
+          <div class="action-card">
+            <div class="action-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <rect x="3" y="3" width="18" height="18" rx="2"></rect>
+                <line x1="12" y1="8" x2="12" y2="16"></line>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+              </svg>
+            </div>
+            <div class="action-content">
+              <h3>添加配置</h3>
+              <p>快速添加新的电脑配置</p>
+            </div>
+          </div>
+
+          <div class="action-card">
+            <div class="action-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
+                <circle cx="9" cy="7" r="4"></circle>
+                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
+                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+              </svg>
+            </div>
+            <div class="action-content">
+              <h3>查看线索</h3>
+              <p>管理客户跟进信息</p>
+            </div>
+          </div>
+
+          <div class="action-card">
+            <div class="action-icon">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="18" cy="5" r="3"></circle>
+                <circle cx="6" cy="12" r="3"></circle>
+                <circle cx="18" cy="19" r="3"></circle>
+                <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+                <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+              </svg>
+            </div>
+            <div class="action-content">
+              <h3>分享管理</h3>
+              <p>获取二维码和推广链接</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Content Grid -->
+        <div class="content-grid">
+          <!-- Latest Leads -->
+          <div class="content-card">
+            <div class="card-header">
+              <h2 class="card-title">最新线索（待跟进）</h2>
+              <span class="card-action">查看全部 →</span>
+            </div>
+
+            <div class="lead-list">
+              <div class="lead-item new">
+                <div class="lead-avatar">客</div>
+                <div class="lead-info">
+                  <div class="lead-name">客户A</div>
+                  <div class="lead-details">
+                    <span>预算:6000元</span>
+                    <span>笔记本</span>
+                    <span>游戏</span>
+                  </div>
+                </div>
+                <div class="lead-status pending">待跟进</div>
+                <div class="lead-time">10分钟前</div>
+              </div>
+
+              <div class="lead-item">
+                <div class="lead-avatar">客</div>
+                <div class="lead-info">
+                  <div class="lead-name">客户B</div>
+                  <div class="lead-details">
+                    <span>预算:5000元</span>
+                    <span>台式机</span>
+                    <span>办公</span>
+                  </div>
+                </div>
+                <div class="lead-status contacted">已联系</div>
+                <div class="lead-time">25分钟前</div>
+              </div>
+
+              <div class="lead-item">
+                <div class="lead-avatar">客</div>
+                <div class="lead-info">
+                  <div class="lead-name">客户C</div>
+                  <div class="lead-details">
+                    <span>预算:8000元</span>
+                    <span>笔记本</span>
+                    <span>设计</span>
+                  </div>
+                </div>
+                <div class="lead-status closed">已成交</div>
+                <div class="lead-time">2小时前</div>
+              </div>
+
+              <div class="lead-item">
+                <div class="lead-avatar">客</div>
+                <div class="lead-info">
+                  <div class="lead-name">客户D</div>
+                  <div class="lead-details">
+                    <span>预算:4000元</span>
+                    <span>台式机</span>
+                    <span>游戏</span>
+                  </div>
+                </div>
+                <div class="lead-status pending">待跟进</div>
+                <div class="lead-time">3小时前</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Popular Configs -->
+          <div class="content-card">
+            <div class="card-header">
+              <h2 class="card-title">热门配置（本周）</h2>
+              <span class="card-action">查看全部 →</span>
+            </div>
+
+            <div class="config-list">
+              <div class="config-item">
+                <div class="config-rank top-1">1</div>
+                <div class="config-info">
+                  <div class="config-name">联想拯救者Y7000P</div>
+                  <div class="config-type">笔记本 · 游戏</div>
+                </div>
+                <div class="config-count">12次</div>
+              </div>
+
+              <div class="config-item">
+                <div class="config-rank top-2">2</div>
+                <div class="config-info">
+                  <div class="config-name">华硕天选4</div>
+                  <div class="config-type">笔记本 · 游戏</div>
+                </div>
+                <div class="config-count">9次</div>
+              </div>
+
+              <div class="config-item">
+                <div class="config-rank top-3">3</div>
+                <div class="config-info">
+                  <div class="config-name">办公主机-标准款</div>
+                  <div class="config-type">台式机 · 办公</div>
+                </div>
+                <div class="config-count">7次</div>
+              </div>
+
+              <div class="config-item">
+                <div class="config-rank">4</div>
+                <div class="config-info">
+                  <div class="config-name">戴尔XPS 15</div>
+                  <div class="config-type">笔记本 · 设计</div>
+                </div>
+                <div class="config-count">5次</div>
+              </div>
+
+              <div class="config-item">
+                <div class="config-rank">5</div>
+                <div class="config-info">
+                  <div class="config-name">游戏主机-入门款</div>
+                  <div class="config-type">台式机 · 游戏</div>
+                </div>
+                <div class="config-count">4次</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <script>
+    // Simulated real-time updates
+    function updateStats() {
+      const statValues = document.querySelectorAll('.stat-value');
+      statValues.forEach(stat => {
+        const currentValue = stat.textContent;
+        if (currentValue.includes('K')) {
+          const num = parseFloat(currentValue.replace(/[^\d.]/g, ''));
+          const newValue = (num + (Math.random() - 0.5)).toFixed(1);
+          stat.textContent = '¥' + newValue + 'K';
+        }
+      });
+    }
+
+    setInterval(updateStats, 5000);
+
+    // Add hover effects for lead items
+    document.querySelectorAll('.lead-item').forEach(item => {
+      item.addEventListener('click', function() {
+        alert('查看线索详情：' + this.querySelector('.lead-name').textContent);
+      });
+    });
+
+    document.querySelectorAll('.action-card').forEach(card => {
+      card.addEventListener('click', function() {
+        const action = this.querySelector('.action-content h3').textContent;
+        alert('跳转到：' + action);
+      });
+    });
+  </script>
+</body>
+</html>

@@ -1,0 +1,197 @@
+# ==================== 小遥配配 - Docker Compose 配置 ====================
+name: xiaoyaopeipei
+
+services:
+  # ==================== MySQL 数据库 ====================
+  mysql:
+    image: mysql:8.0
+    container_name: xiaoyaopeipei-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+      TZ: Asia/Shanghai
+    ports:
+      - "${MYSQL_PORT}:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    command: >
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_unicode_ci
+      --default-time-zone=+08:00
+      --max_connections=1000
+      --max_allowed_packet=256M
+    networks:
+      - xiaoyaopeipei-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ==================== 后端 API 服务 ====================
+  backend:
+    build:
+      context: ../xiaoyaopeipei-user-merchant-backend
+      dockerfile: Dockerfile
+    container_name: xiaoyaopeipei-backend
+    restart: unless-stopped
+    ports:
+      - "${BACKEND_PORT}:8001"
+    environment:
+      # 应用配置
+      APP_ENV: ${APP_ENV}
+      APP_DEBUG: ${APP_DEBUG}
+      APP_HOST: 0.0.0.0
+      APP_PORT: 8001
+
+      # 数据库配置
+      DATABASE_URL: mysql+pymysql://${MYSQL_USER}:${MYSQL_PASSWORD}@mysql:3306/${MYSQL_DATABASE}?charset=utf8mb4
+
+      # JWT 配置
+      JWT_SECRET: ${JWT_SECRET}
+      JWT_ALGORITHM: ${JWT_ALGORITHM:-HS256}
+      JWT_EXPIRE_MINUTES: ${JWT_EXPIRE_MINUTES:-10080}
+
+      # 通义千问配置
+      QWEN_API_KEY: ${QWEN_API_KEY}
+      QWEN_MODEL: ${QWEN_MODEL:-qwen-plus}
+      QWEN_TEMPERATURE: ${QWEN_TEMPERATURE:-0.7}
+      QWEN_MAX_TOKENS: ${QWEN_MAX_TOKENS:-2000}
+
+      # OSS 配置
+      OSS_ACCESS_KEY_ID: ${OSS_ACCESS_KEY_ID}
+      OSS_ACCESS_KEY_SECRET: ${OSS_ACCESS_KEY_SECRET}
+      OSS_BUCKET: ${OSS_BUCKET}
+      OSS_ENDPOINT: ${OSS_ENDPOINT}
+      OSS_REGION: ${OSS_REGION}
+      OSS_HOST: ${OSS_HOST}
+      OSS_STS_ROLE_ARN: ${OSS_STS_ROLE_ARN:-}
+
+      # 缓存配置
+      CACHE_MAX_SIZE: ${CACHE_MAX_SIZE:-1000}
+      CACHE_TTL: ${CACHE_TTL:-3600}
+
+      # AES 加密
+      AES_KEY: ${AES_KEY}
+
+      # 日志配置
+      LOG_LEVEL: ${LOG_LEVEL:-INFO}
+      LOG_ROTATION: ${LOG_ROTATION:-00:00}
+      LOG_RETENTION: ${LOG_RETENTION:-30 days}
+
+      # CORS 配置
+      CORS_ORIGINS: ${CORS_ORIGINS}
+      CORS_ALLOW_CREDENTIALS: ${CORS_ALLOW_CREDENTIALS:-true}
+      CORS_ALLOW_METHODS: ${CORS_ALLOW_METHODS:-["GET","POST","PUT","DELETE","OPTIONS","PATCH"]}
+      CORS_ALLOW_HEADERS: ${CORS_ALLOW_HEADERS:-["*"]}
+
+      # 前端 URL 配置
+      USER_FRONTEND_URL: ${USER_FRONTEND_URL:-http://localhost:5173}
+      USER_FRONTEND_URL_PROD: ${USER_FRONTEND_URL_PROD:-https://peipei.xiaoyaos.com}
+
+      # 会员配置
+      MEMBERSHIP_DEFAULT_DAYS: ${MEMBERSHIP_DEFAULT_DAYS:-7}
+      MEMBERSHIP_RENEWAL_THRESHOLD: ${MEMBERSHIP_RENEWAL_THRESHOLD:-3}
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - xiaoyaopeipei-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8001/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ==================== C端前端 ====================
+  user-frontend:
+    build:
+      context: ../xiaoyaopeipei-user-frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_API_BASE_URL: ${VITE_USER_API_BASE_URL}
+        VITE_MER_BACKEND_URL: ${VITE_USER_MER_BACKEND_URL}
+        VITE_OSS_DOMAIN: ${VITE_USER_OSS_DOMAIN}
+        VITE_APP_TITLE: ${VITE_USER_APP_TITLE}
+        VITE_REQUEST_TIMEOUT: ${VITE_REQUEST_TIMEOUT}
+        VITE_USE_MOCK: ${VITE_USER_USE_MOCK:-false}
+        VITE_DEBUG: ${VITE_USER_DEBUG:-false}
+        VITE_SESSION_KEY: ${VITE_SESSION_KEY:-user_session}
+        VITE_MAX_RECOMMEND_COUNT: ${VITE_MAX_RECOMMEND_COUNT:-5}
+    container_name: xiaoyaopeipei-user-frontend
+    restart: unless-stopped
+    ports:
+      - "${USER_FRONTEND_PORT}:80"
+    networks:
+      - xiaoyaopeipei-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ==================== B端前端 ====================
+  mer-frontend:
+    build:
+      context: ../xiaoyaopeipei-mer-frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_BASE_PATH: /mer/
+        VITE_API_BASE_URL: ${VITE_MER_API_BASE_URL}
+        VITE_REQUEST_TIMEOUT: ${VITE_MER_REQUEST_TIMEOUT}
+        VITE_DEBUG: ${VITE_MER_DEBUG:-false}
+    container_name: xiaoyaopeipei-mer-frontend
+    restart: unless-stopped
+    ports:
+      - "${MER_FRONTEND_PORT}:80"
+    networks:
+      - xiaoyaopeipei-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+  # ==================== Nginx 反向代理 ====================
+  nginx:
+    image: nginx:alpine
+    container_name: xiaoyaopeipei-nginx
+    restart: unless-stopped
+    ports:
+      - "${NGINX_HTTP_PORT}:80"
+      - "${NGINX_HTTPS_PORT}:443"
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./nginx/conf.d:/etc/nginx/conf.d:ro
+      - ./nginx/ssl:/etc/nginx/ssl:ro
+      - ./nginx/logs:/var/log/nginx
+    depends_on:
+      - backend
+      - user-frontend
+      - mer-frontend
+    networks:
+      - xiaoyaopeipei-network
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3"
+
+# ==================== 网络配置 ====================
+networks:
+  xiaoyaopeipei-network:
+    driver: bridge
+
+# ==================== 数据卷 ====================
+volumes:
+  mysql_data:
+    driver: local

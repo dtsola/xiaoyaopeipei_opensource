@@ -2,6 +2,13 @@
 
 > AI 对话式电脑导购，帮你 24 小时接单
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python](https://img.shields.io/badge/Python-3.10+-blue.svg)](https://www.python.org/)
+[![Vue](https://img.shields.io/badge/Vue-3.4+-brightgreen.svg)](https://vuejs.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.109+-green.svg)](https://fastapi.tiangolo.com/)
+
+[English](README_EN.md) | 简体中文
+
 <p align="center">
   <img src="docs/产品文档/产品截图/宣传海报图.png" alt="小遥配配宣传海报">
 </p>
@@ -9,6 +16,10 @@
 ---
 
 ## 简介
+
+<p align="center">
+  <img src="docs/产品文档/logos/logo.png" alt="小遥配配" width="200">
+</p>
 
 小遥配配是一个 **AI 对话式电脑导购助手**，为电脑店老板提供智能客户需求收集和配置推荐服务的 SaaS 平台，通过 AI 对话方式收集客户需求，智能推荐合适的电脑配置方案。
 
@@ -20,6 +31,36 @@
 - 🚀 **快速部署** - 前后端分离架构，易于部署和扩展
 - 💻 **双端支持** - B 端商家后台 + C 端客户对话界面
 - 📱 **响应式设计** - 支持桌面端和移动端访问
+
+---
+
+## 作者介绍
+
+<p align="center">
+  <img src="docs/产品文档/产品截图/作者头像.jpg" alt="dtsola" width="120" height="120" style="border-radius: 50%;">
+</p>
+
+<p align="center">
+  <b>dtsola</b> — IT解决方案架构师 | 一人公司实践者
+</p>
+
+<p align="center">
+  🌐 <a href="https://www.dtsola.com">个人站点</a> &nbsp;|&nbsp;
+  📺 <a href="https://space.bilibili.com/736015">B站</a> &nbsp;|&nbsp;
+  💬 微信：dtsola（与我建联，备注：github）
+</p>
+
+<p align="center">
+  <img src="docs/产品文档/产品截图/个人二维码.png" alt="微信二维码" width="120">
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="docs/产品文档/产品截图/开发者交流群图.png" alt="开发者交流群" width="120">
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <img src="docs/产品文档/产品截图/用户交流群图.png" alt="用户交流群" width="120">
+</p>
+
+<p align="center">
+  <small>微信联系 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 开发者交流群 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 用户交流群</small>
+</p>
 
 ---
 
@@ -244,166 +285,399 @@
 
 ---
 
-## 源码获取
+## 快速开始
 
-<p align="center">
-  <img src="docs/产品文档/logos/logo.png" alt="小遥配配" width="200">
-</p>
+### 环境要求
 
-<p align="center">
-  <b>源代码定价：人民币 199元</b>
-</p>
+- **Node.js**: >= 18.0.0
+- **Python**: 3.10
+- **MySQL**: 8.0
+- **Git**: 最新版本
 
-<p align="center">
-  📺 <b>如需查看演示或购买源码，请联系微信：dtsola</b>
-</p>
+### 方式一：Docker 部署（推荐）
 
-<p align="center">
-  <img src="docs/产品文档/产品截图/个人二维码.png" alt="微信二维码" width="180">
-</p>
+> 详细的部署指南请参考：[Docker部署文档](docs/部署文档/Docker部署文档.md)
 
-<p align="center">
-  <small>扫码添加微信，备注"小遥配配"</small>
-</p>
+**环境变量配置**：
+
+编辑 `docker/.env` 文件，填写以下必需配置：
+
+| 参数 | 获取方式 | 说明 |
+|------|---------|------|
+| `MYSQL_ROOT_PASSWORD` | 自定义设置<br>生成：`openssl rand -base64 16` | MySQL root 密码，建议使用强密码 |
+| `MYSQL_PASSWORD` | 自定义设置<br>生成：`openssl rand -base64 16` | 数据库用户密码，建议使用强密码 |
+| `JWT_SECRET` | 自定义设置<br>生成：`openssl rand -base64 32` | JWT 密钥，必须是随机字符串（32位以上） |
+| `QWEN_API_KEY` | [阿里云百炼平台](https://bailian.console.aliyun.com/)<br>开通服务后创建 API-KEY | 通义千问 API 密钥 |
+| `OSS_ACCESS_KEY_ID` | [阿里云 OSS 控制台](https://oss.console.aliyun.com/)<br>创建 AccessKey 后获取 | OSS 访问密钥 ID |
+| `OSS_ACCESS_KEY_SECRET` | [阿里云 OSS 控制台](https://oss.console.aliyun.com/)<br>创建 AccessKey 后获取 | OSS 访问密钥 Secret |
+| `OSS_BUCKET` | [阿里云 OSS 控制台](https://oss.console.aliyun.com/)<br>创建 Bucket 后复制名称 | OSS 存储桶名称 |
+| `OSS_ENDPOINT` | 根据区域选择<br>• 上海：`oss-cn-shanghai.aliyuncs.com`<br>• 杭州：`oss-cn-hangzhou.aliyuncs.com`<br>• 北京：`oss-cn-beijing.aliyuncs.com` | OSS 终端节点 |
+| `OSS_HOST` | 无自定义域名：`https://{bucket}.{endpoint}`<br>有自定义域名：填写绑定的域名 | OSS 文件访问地址 |
+| `AES_KEY` | 自定义设置<br>生成：`openssl rand -base64 24 \| head -c 32` | AES 加密密钥，必须是 32 位字符串 |
+| `MEMBERSHIP_DEFAULT_DAYS` | 自定义设置，默认 `7` | 会员默认天数（注册时赠送） |
+| `MEMBERSHIP_RENEWAL_THRESHOLD` | 自定义设置，默认 `3` | 会员续期提醒阈值（天） |
+
+**快速生成随机密钥**：
+
+```bash
+# 生成 JWT_SECRET（示例）
+openssl rand -base64 32
+
+# 生成 AES_KEY（必须是32位）
+openssl rand -base64 24 | head -c 32
+```
+
+**一键启动所有服务**：
+
+```bash
+# 1. 配置环境变量
+cd docker
+# 编辑 .env 文件，填写真实配置
+
+# 2. 启动所有服务（数据库迁移自动运行）
+docker-compose up -d
+
+# 3. 查看服务状态
+docker-compose ps
+```
+
+**本地访问地址**：
+- C端前端：http://localhost
+- B端前端：http://localhost/mer
+- 后端 API：http://localhost/api
+
+**优势**：
+- 🚀 一键启动，无需手动配置
+- 📦 环境隔离，不污染本地系统
+- 🔄 自动运行数据库迁移
+- 🛠️ 开发、测试、生产环境一致
 
 ---
 
-### 部署超简单
+### 方式二：开发者本地开发
 
-🐳 **Docker 一键部署**
-- 无需配置服务器环境
-- 一条命令启动所有服务
-- 10分钟内上线运行
+#### 后端启动
 
-⚙️ **无需技术背景也能用**
-- 提供详细部署文档
-- 可选购远程部署服务（+300元）
+```bash
+# 1. 进入后端目录
+cd xiaoyaopeipei-user-merchant-backend
+
+# 2. 创建虚拟环境（Windows）
+py -3.10 -m venv venv
+venv\Scripts\activate
+
+# 3. 安装依赖
+pip install -r requirements.txt
+
+# 4. 配置环境变量
+cp .env.example .env
+# 编辑 .env 文件，填写真实配置
+
+# 5. 数据库迁移
+alembic upgrade head
+
+# 6. 启动服务
+uvicorn app.main:app --reload --port 8001
+```
+
+后端运行在：http://localhost:8001
+API文档：http://localhost:8001/docs
+
+#### C端前端启动
+
+```bash
+# 1. 进入C端前端目录
+cd xiaoyaopeipei-user-frontend
+
+# 2. 安装依赖
+pnpm install
+
+# 3. 启动开发服务器
+pnpm dev
+```
+
+C端运行在：http://localhost:3000
+
+#### B端前端启动
+
+```bash
+# 1. 进入B端前端目录
+cd xiaoyaopeipei-mer-frontend
+
+# 2. 安装依赖
+pnpm install
+
+# 3. 启动开发服务器
+pnpm dev
+```
+
+B端运行在：http://localhost:3001
 
 ---
 
-### 包含内容
+### 方式三：生产环境部署
 
-购买源代码，您将获得：
+> 详细的部署指南请参考：[部署文档](docs/部署文档.md)
 
-- **完整项目源代码** - C端前端 + B端前端 + 后端（前后端分离架构）
-- **完整项目文档** - 市场需求、产品设计、技术方案、接口文档、部署文档等全链路文档
-- **Docker部署方案** - 一键启动，快速上线
-- **MIT开源许可** - 可自由修改、商用，无需保留作者署名
+**部署架构**：
+- 云服务器：阿里云ECS 2核4G
+- Web服务器：Nginx（反向代理 + 静态资源服务）
+- 进程管理：Supervisor
 
-### 增值服务（可选）
+**域名规划**：
 
-| 服务 | 价格 | 服务内容 |
-|------|------|---------|
-| **技术咨询** | 100元/次 | 解答1-2个具体技术问题（文字/语音回复） |
-| **远程部署** | 300元 | 远程登录服务器，完成部署并验证运行（1小时内） |
-| **定制开发** | 200元/小时 | 功能定制/界面修改/业务逻辑调整 |
+| 项目 | 域名 |
+|------|------|
+| **C端** | `user.example.com` |
+| **B端** | `mer.example.com` |
+| **API** | `api.example.com` |
 
-> 💡 **说明**：源码套餐不含技术支持和部署服务，购买后可根据需要单独购买增值服务。
+---
 
-### 源码预览
+## 使用说明
 
-#### 项目根目录结构
+### 商家使用流程（B端）
 
-<table>
-<tr>
-<td width="50%"><img src="docs/产品文档/项目截图/01-项目根目录.png" alt="项目根目录"></td>
-<td width="50%">
-<ul>
-<li>📁 前后端分离架构</li>
-<li>📁 完整的项目文档体系</li>
-<li>🐳 Docker 一键部署支持</li>
-<li>📦 模块化代码组织</li>
-</ul>
-</td>
-</tr>
-</table>
+1. **注册账号**：访问 B 端，完成邮箱注册
+2. **配置管理**：添加电脑配置 SKU，设置价格和分类
+3. **生成二维码**：获取专属推广二维码
+4. **分享推广**：将二维码分享给潜在客户
+5. **查看线索**：实时接收客户线索，快速跟进成交
+6. **数据统计**：查看经营数据，优化营销策略
 
-#### 完整项目文档体系
+### 客户使用流程（C端）
 
-<table>
-<tr>
-<td width="50%"><img src="docs/产品文档/项目截图/02-所有项目文档（市场+产品+UI和UX设计+技术（架构+前端+后端+测试+运维）+项目实施+运营）全链路.png" alt="完整项目文档"></td>
-<td width="50%">
-<ul>
-<li>📊 市场需求文档 (MRD)</li>
-<li>📱 产品需求文档 (PRD)</li>
-<li>🎨 UI/UX 设计文档</li>
-<li>💻 技术方案文档</li>
-<li>🧪 测试文档</li>
-<li>📦 部署文档</li>
-<li>🚀 运营文档</li>
-</ul>
-</td>
-</tr>
-</table>
+1. **扫码访问**：扫描商家专属二维码进入对话页面
+2. **AI 对话**：自然语言表达电脑需求
+3. **获取推荐**：AI 智能匹配最佳配置方案
+4. **对比选择**：查看多个推荐方案，对比选择
+5. **提交线索**：留下联系方式，等待商家联系
 
-#### C端用户端源代码
+---
 
-<table>
-<tr>
-<td width="50%"><img src="docs/产品文档/项目截图/04-用户端-源代码.png" alt="C端源代码"></td>
-<td width="50%">
-<ul>
-<li>Vue 3 + TypeScript</li>
-<li>Vite 构建工具</li>
-<li>AI 对话交互</li>
-<li>配置推荐展示</li>
-<li>线索提交功能</li>
-</ul>
-</td>
-</tr>
-</table>
+## 技术栈
 
-#### B端商户端源代码
+### 后端
 
-<table>
-<tr>
-<td width="50%"><img src="docs/产品文档/项目截图/03-商户端-源代码.png" alt="B端源代码"></td>
-<td width="50%">
-<ul>
-<li>Vue 3 + Ant Design Vue</li>
-<li>数据看板展示</li>
-<li>配置 SKU 管理</li>
-<li>客户线索管理</li>
-<li>ECharts 数据可视化</li>
-</ul>
-</td>
-</tr>
-</table>
+| 技术 | 版本 | 说明 |
+|------|------|------|
+| Python | 3.10+ | 后端开发语言 |
+| FastAPI | 0.109+ | 高性能 Web 框架 |
+| SQLAlchemy | 2.0+ | ORM 框架 |
+| Alembic | Latest | 数据库迁移工具 |
+| Pydantic | 2.x | 数据验证 |
+| Loguru | 0.7+ | 日志管理 |
+| LangChain | 0.1+ | AI 智能体框架 |
+| 通义千问 | qwen-plus | 大语言模型 |
+| MySQL | 8.0+ | 关系型数据库 |
+| 阿里云OSS | - | 文件存储 |
+| JWT | - | 用户认证 |
 
-#### 后端源代码
+### 前端（C端 + B端）
 
-<table>
-<tr>
-<td width="50%"><img src="docs/产品文档/项目截图/05-后端-源代码.png" alt="后端源代码"></td>
-<td width="50%">
-<ul>
-<li>FastAPI 高性能框架</li>
-<li>SQLAlchemy ORM</li>
-<li>LangChain AI 框架</li>
-<li>通义千问大模型集成</li>
-<li>JWT 身份认证</li>
-</ul>
-</td>
-</tr>
-</table>
+| 技术 | 版本 | 说明 |
+|------|------|------|
+| Vue | 3.4+ | 渐进式前端框架 |
+| Vite | 5.0+ | 下一代构建工具 |
+| TypeScript | 5.0+ | 类型安全的 JavaScript |
+| Ant Design Vue | 4.x | 企业级 UI 组件库 |
+| Vue Router | 4.2+ | 官方路由管理 |
+| Pinia | 2.1+ | 新一代状态管理 |
+| Axios | Latest | HTTP 客户端 |
+| ECharts | 5.4+ | 数据可视化（B端） |
 
-#### Docker 一键部署
+### 部署
 
-<table>
-<tr>
-<td width="50%"><img src="docs/产品文档/项目截图/06-部署-Docker一键部署.png" alt="Docker部署"></td>
-<td width="50%">
-<ul>
-<li>🐳 Docker Compose 编排</li>
-<li>🗄️ MySQL 数据库</li>
-<li>🔧 自动数据库迁移</li>
-<li>🚀 一键启动所有服务</li>
-<li>📦 环境隔离部署</li>
-</ul>
-</td>
-</tr>
-</table>
+| 技术 | 说明 |
+|------|------|
+| Nginx | Web 服务器 / 反向代理 |
+| Supervisor | 进程管理 |
+| Docker | 容器化部署（可选） |
+
+---
+
+## 项目结构
+
+```
+xiaoyaopeipei/
+├── xiaoyaopeipei-user-frontend/         # C端前端项目（Vue 3）
+│   ├── src/
+│   │   ├── api/                         # API 客户端
+│   │   ├── views/                       # 页面组件
+│   │   ├── components/                  # 公共组件
+│   │   ├── stores/                      # 状态管理（Pinia）
+│   │   └── utils/                       # 工具函数
+│   ├── package.json
+│   └── vite.config.ts
+│
+├── xiaoyaopeipei-mer-frontend/          # B端前端项目（Vue 3）
+│   ├── src/
+│   │   ├── api/
+│   │   ├── views/
+│   │   ├── components/
+│   │   ├── stores/
+│   │   └── utils/
+│   ├── package.json
+│   └── vite.config.ts
+│
+├── xiaoyaopeipei-user-merchant-backend/ # 后端项目（FastAPI）
+│   ├── app/
+│   │   ├── api/                         # API 路由层
+│   │   │   ├── user/                    # C端接口
+│   │   │   └── mer/                     # B端接口
+│   │   ├── core/                        # 核心配置
+│   │   ├── models/                      # SQLAlchemy ORM 模型
+│   │   ├── schemas/                     # Pydantic 数据验证
+│   │   ├── services/                    # 业务逻辑层
+│   │   ├── utils/                       # 工具函数
+│   │   └── middleware/                  # 中间件
+│   ├── alembic/                         # 数据库迁移
+│   ├── requirements.txt
+│   └── .env.example
+│
+├── docs/                                # 文档目录
+│   ├── 00-mrd.md                        # 市场需求文档
+│   ├── 01-prd.md                        # 产品需求文档
+│   ├── 03-技术方案.md                    # 技术方案
+│   ├── 代码架构.md                       # 代码架构
+│   ├── 数据库文档.md                     # 数据库设计
+│   ├── 接口文档.md                       # API接口文档
+│   ├── 部署文档.md                       # 部署指南
+│   └── 产品文档/
+│       ├── logos/                       # 品牌素材
+│       └── 产品截图/                    # 功能截图
+│
+└── README.md                            # 本文档
+```
+
+---
+
+## 文档索引
+
+| 文档名称 | 路径 | 描述 |
+|---------|------|------|
+| **MRD文档** | [docs/00-mrd.md](docs/00-mrd.md) | 精益市场需求文档 |
+| **PRD文档** | [docs/01-prd.md](docs/01-prd.md) | 产品需求文档 |
+| **技术方案** | [docs/03-技术方案.md](docs/03-技术方案.md) | 技术架构设计方案 |
+| **代码架构** | [docs/代码架构.md](docs/代码架构.md) | 完整项目代码结构说明 |
+| **接口文档** | [docs/接口文档.md](docs/接口文档.md) | RESTful API接口设计文档 |
+| **数据库文档** | [docs/数据库文档.md](docs/数据库文档.md) | 数据库设计文档 |
+| **部署文档** | [docs/部署文档.md](docs/部署文档.md) | 生产环境部署指南 |
+
+---
+
+## 核心功能
+
+### C端（客户端）
+
+- **AI 智能对话**：基于 LangChain + 通义千问的自然语言交互
+- **意图识别**：自动识别客户需求类型（办公、游戏、设计等）
+- **配置推荐**：根据需求智能匹配最佳配置方案
+- **方案对比**：多方案对比展示，帮助客户决策
+- **线索提交**：一键提交联系方式，促成交易
+
+### B端（商家端）
+
+- **商家认证**：邮箱注册登录，JWT Token 认证
+- **配置管理**：增删改查电脑配置 SKU
+- **线索管理**：查看客户线索列表和详情
+- **数据统计**：访问量、线索量、转化率等数据看板
+- **分享管理**：生成专属推广二维码，追踪来源
+- **个人中心**：账户管理、联系平台充值、套餐续期
+
+---
+
+## 开发规范
+
+### 代码规范
+
+- **Python**: 遵循 [PEP 8](https://pep8.org/) 规范，使用 black + isort 格式化
+- **TypeScript**: 遵循 ESLint + Prettier 规范
+- **命名规范**：
+  - Python: `snake_case`（函数/变量）、`PascalCase`（类）
+  - TypeScript: `camelCase`（变量/函数）、`PascalCase`（类/组件）
+
+### Git 提交规范
+
+```
+<type>(<scope>): <subject>
+
+# Type 类型
+feat: 新功能
+fix: bug修复
+docs: 文档更新
+style: 代码格式调整
+refactor: 重构
+test: 测试相关
+chore: 构建/工具变动
+```
+
+详细规范请参阅 [CLAUDE.md](.claude/CLAUDE.md)
+
+---
+
+## 贡献指南
+
+欢迎贡献代码、报告问题或提出建议！
+
+### 开发流程
+
+1. Fork 本仓库
+2. 创建功能分支 (`git checkout -b feature/AmazingFeature`)
+3. 提交更改 (`git commit -m 'feat: 添加某个功能'`)
+4. 推送到分支 (`git push origin feature/AmazingFeature`)
+5. 创建 Pull Request
+
+---
+
+## 常见问题
+
+### Q: 支持哪些大模型？
+
+A: 目前使用阿里云通义千问 (qwen-plus)，后续可扩展支持其他模型。
+
+### Q: 数据如何存储？
+
+A: 使用 MySQL 8.0 存储结构化数据，阿里云 OSS 存储图片等文件。
+
+### Q: 如何自定义 AI 对话提示词？
+
+A: 在后端 `app/services/ai_service.py` 中修改 LangChain 提示词模板。
+
+### Q: 支持移动端吗？
+
+A: 支持。前端采用响应式设计，可在手机浏览器上正常使用。
+
+### Q: 如何充值和续期？
+
+A: 联系平台方进行充值，登录 B 端个人中心可查看会员到期时间并进行续期。系统会在会员过期前发送提醒通知。
+
+### Q: 会员过期后怎么办？
+
+A: 登录后会自动检查会员状态，如已过期会提示联系续期。续期后即可正常使用全部功能。
+
+---
+
+## 开发状态
+
+当前项目已完成基础架构搭建和核心功能开发：
+
+- ✅ 后端项目结构搭建完成
+- ✅ 数据库模型设计完成（7张表）
+- ✅ API 路由结构搭建完成
+- ✅ C端前端开发完成
+- ✅ B端前端开发完成
+- ✅ AI 服务模块实现完成
+- ✅ Loguru 日志系统集成
+- ✅ 雪花算法 ID 生成器
+- ✅ 软外键策略实现
+- ✅ 充值与续期功能完成
+
+**下一步计划**：
+
+- ⏳ 生产环境部署（ECS、Nginx、域名、SSL）
+- ⏳ 性能优化和压力测试
+- ⏳ 用户协议和隐私政策完善
 
 ---
 
@@ -411,10 +685,14 @@
 
 本项目采用 [MIT 许可证](LICENSE)
 
-购买源代码后，您可以：
-- ✅ 自由使用、修改、分发
-- ✅ 用于商业项目
-- ✅ 进行二次开发
+---
+
+## 联系方式
+
+- **项目主页**: [GitHub](https://github.com/dtsola/xiaoyaopeipei)
+- **问题反馈**: [Issues](https://github.com/dtsola/xiaoyaopeipei/issues)
+- **个人站点**: [https://www.dtsola.com](https://www.dtsola.com)
+- **微信**: dtsola（与我建联，备注：github）
 
 ---
 

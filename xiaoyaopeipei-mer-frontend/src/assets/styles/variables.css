@@ -1,0 +1,336 @@
+/**
+ * 小遥配配 B端 - 全局样式变量 v2.0
+ * 现代商务风格 - 增强版
+ */
+
+:root {
+  /* ========== 主色调 ========== */
+  --primary-color: #2563eb;
+  --primary-hover: #1d4ed8;
+  --primary-active: #1e40af;
+  --primary-light: #dbeafe;
+  --primary-lighter: #eff6ff;
+
+  /* 辅助色 - 与C端呼应的橙色 */
+  --accent-color: #FF6B35;
+  --accent-hover: #FF8C5A;
+  --accent-light: #FFE5DB;
+  --accent-lighter: #FFF6F2;
+
+  /* ========== 渐变系统 ========== */
+  --gradient-primary: linear-gradient(135deg, #2563eb 0%, #1d4ed8 100%);
+  --gradient-primary-glow: linear-gradient(135deg, rgba(37,99,235,0.2) 0%, rgba(29,78,216,0.1) 100%);
+  --gradient-primary-subtle: linear-gradient(135deg, rgba(37,99,235,0.05) 0%, rgba(29,78,216,0.03) 100%);
+
+  --gradient-accent: linear-gradient(135deg, #FF6B35 0%, #FF8C5A 100%);
+  --gradient-accent-glow: linear-gradient(135deg, rgba(255,107,53,0.2) 0%, rgba(255,140,90,0.1) 100%);
+  --gradient-accent-subtle: linear-gradient(135deg, rgba(255,107,53,0.05) 0%, rgba(255,140,90,0.03) 100%);
+
+  --gradient-success: linear-gradient(135deg, #059669 0%, #10b981 100%);
+  --gradient-warning: linear-gradient(135deg, #d97706 0%, #f59e0b 100%);
+  --gradient-card: linear-gradient(180deg, #ffffff 0%, #fafbfc 100%);
+
+  /* ========== 背景色 ========== */
+  --bg-page: #fafbfc;
+  --bg-card: #ffffff;
+  --bg-hover: #f8fafc;
+  --bg-active: #f1f5f9;
+  --bg-glass: rgba(255, 255, 255, 0.85);
+  --bg-elevated: rgba(255, 255, 255, 0.95);
+
+  /* ========== 文字色 ========== */
+  --text-primary: #1a1d23;
+  --text-secondary: #5a6370;
+  --text-tertiary: #8a94a5;
+  --text-disabled: #d1d5db;
+  --text-inverse: #ffffff;
+
+  /* ========== 边框色 ========== */
+  --border-color: #e8eaed;
+  --border-color-light: #f0f2f5;
+  --border-color-dark: #d1d5db;
+  --border-color-primary: rgba(37, 99, 235, 0.15);
+  --border-color-accent: rgba(255, 107, 53, 0.15);
+  --border-color-glass: rgba(255, 255, 255, 0.6);
+
+  /* ========== 功能色 ========== */
+  --success-color: #059669;
+  --success-light: #d1fae5;
+  --success-lighter: #ecfdf5;
+
+  --warning-color: #d97706;
+  --warning-light: #fef3c7;
+  --warning-lighter: #fffbeb;
+
+  --danger-color: #dc2626;
+  --danger-light: #fee2e2;
+  --danger-lighter: #fef2f2;
+
+  --info-color: #0891b2;
+  --info-light: #cffafe;
+  --info-lighter: #ecfeff;
+
+  /* ========== 阴影系统 - 增强版 ========== */
+  --shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-sm: 0 2px 4px rgba(0, 0, 0, 0.06);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.12);
+  --shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.15);
+
+  /* 品牌色辉光阴影 */
+  --shadow-primary-glow: 0 4px 20px rgba(37, 99, 235, 0.3);
+  --shadow-primary-hover: 0 8px 30px rgba(37, 99, 235, 0.4);
+  --shadow-primary-soft: 0 2px 12px rgba(37, 99, 235, 0.15);
+  --shadow-card-glow: 0 12px 40px rgba(37, 99, 235, 0.15);
+  --shadow-button: 0 4px 16px rgba(37, 99, 235, 0.3);
+
+  /* 辅助色辉光阴影 */
+  --shadow-accent-glow: 0 4px 20px rgba(255, 107, 53, 0.3);
+  --shadow-accent-hover: 0 8px 30px rgba(255, 107, 53, 0.4);
+
+  /* 玻璃态阴影 */
+  --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.08);
+  --shadow-glass-hover: 0 12px 48px rgba(0, 0, 0, 0.12);
+
+  /* ========== 圆角 - 调整为更友好的值 ========== */
+  --radius-xs: 6px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 20px;
+  --radius-full: 9999px;
+
+  /* ========== 间距 ========== */
+  --spacing-xs: 4px;
+  --spacing-sm: 8px;
+  --spacing-md: 16px;
+  --spacing-lg: 24px;
+  --spacing-xl: 32px;
+  --spacing-2xl: 48px;
+
+  /* ========== 布局 ========== */
+  --sidebar-width: 260px;
+  --header-height: 72px;
+  --content-padding: 32px;
+
+  /* ========== 字体 ========== */
+  --font-display: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-body: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Hiragino Sans GB', 'Microsoft YaHei', sans-serif;
+  --font-number: 'SF Mono', 'Roboto Mono', 'Monaco', 'Consolas', monospace;
+
+  /* ========== 字体大小 ========== */
+  --font-size-xs: 0.75rem;     /* 12px */
+  --font-size-sm: 0.875rem;    /* 14px */
+  --font-size-base: 1rem;      /* 16px */
+  --font-size-lg: 1.125rem;    /* 18px */
+  --font-size-xl: 1.25rem;     /* 20px */
+  --font-size-2xl: 1.5rem;     /* 24px */
+  --font-size-3xl: 2rem;       /* 32px */
+  --font-size-4xl: 2.5rem;     /* 40px */
+
+  /* ========== 过渡 ========== */
+  --transition-fast: 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-base: 250ms cubic-bezier(0.4, 0, 0.2, 1);
+  --transition-slow: 350ms cubic-bezier(0.4, 0, 0.2, 1);
+
+  /* ========== 层级 ========== */
+  --z-dropdown: 1000;
+  --z-sticky: 1020;
+  --z-fixed: 1030;
+  --z-modal-backdrop: 1040;
+  --z-modal: 1050;
+  --z-popover: 1060;
+  --z-tooltip: 1070;
+}
+
+/* ========== 全局重置 ========== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font-size: 14px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+body {
+  font-family: var(--font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  background-color: var(--bg-page);
+  min-height: 100vh;
+  /* 添加微妙背景纹理 */
+  background-image:
+    radial-gradient(circle at 15% 20%, rgba(37,99,235,0.02) 0%, transparent 50%),
+    radial-gradient(circle at 85% 80%, rgba(255,107,53,0.015) 0%, transparent 50%);
+  background-attachment: fixed;
+}
+
+/* ========== 字体类 ========== */
+.font-display {
+  font-family: var(--font-display);
+}
+
+.font-body {
+  font-family: var(--font-body);
+}
+
+.font-number {
+  font-family: var(--font-number);
+}
+
+/* ========== 滚动条样式 ========== */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--bg-page);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--border-color);
+  border-radius: var(--radius-full);
+  transition: background var(--transition-fast);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--border-color-dark);
+}
+
+/* ========== 选择文本样式 ========== */
+::selection {
+  background-color: var(--primary-light);
+  color: var(--primary-color);
+}
+
+/* ========== 焦点样式 ========== */
+:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* ========== 链接样式 ========== */
+a {
+  color: var(--primary-color);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--primary-hover);
+}
+
+/* ========== 图片样式 ========== */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* ========== 按钮重置 ========== */
+button {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+  border: none;
+  background: none;
+  cursor: pointer;
+}
+
+/* ========== 输入框重置 ========== */
+input,
+textarea,
+select {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+  color: inherit;
+}
+
+/* ========== 列表重置 ========== */
+ul,
+ol {
+  list-style: none;
+}
+
+/* ========== 动画关键帧 ========== */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes slideInLeft {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -100% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+}

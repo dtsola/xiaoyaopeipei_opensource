@@ -1,0 +1,20 @@
+"""
+Prompt模板初始化文件
+"""
+from app.services.ai.prompts.intent_prompts import (
+    INTENT_RECOGNITION_SYSTEM,
+    IS_INFO_COMPLETE_SYSTEM,
+    NEXT_ACTION_SYSTEM,
+    RECOMMEND_REASON_SYSTEM,
+    CHAT_REPLY_SYSTEM,
+    USER_PROFILE_SYSTEM,
+)
+
+__all__ = [
+    "INTENT_RECOGNITION_SYSTEM",
+    "IS_INFO_COMPLETE_SYSTEM",
+    "NEXT_ACTION_SYSTEM",
+    "RECOMMEND_REASON_SYSTEM",
+    "CHAT_REPLY_SYSTEM",
+    "USER_PROFILE_SYSTEM",
+]
